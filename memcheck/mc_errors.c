@@ -355,13 +355,14 @@ static void pp_LossRecord(UInt n_this_record, UInt n_total_records,
          emit( "  <xwhat>\n" );
          emit( "    <text>%'lu%s (%'lu%s direct, %'lu%s indirect) bytes "
                "in %'u%s blocks"
-               " are %s in loss record %'u of %'u</text>\n",
+               " are %s in loss record %'u of %'u at address %p</text>\n",
                lr->szB + lr->indirect_szB, d_bytes,
                lr->szB, d_direct_bytes,
                lr->indirect_szB, d_indirect_bytes,
                lr->num_blocks, d_num_blocks,
                str_leak_lossmode(lr->key.state),
-               n_this_record, n_total_records );
+               n_this_record, n_total_records,
+               (void*)lr->address);
          // Nb: don't put commas in these XML numbers 
          emit( "    <leakedbytes>%lu</leakedbytes>\n",
                lr->szB + lr->indirect_szB );
@@ -370,11 +371,12 @@ static void pp_LossRecord(UInt n_this_record, UInt n_total_records,
       } else {
          emit( "  <xwhat>\n" );
          emit( "    <text>%'lu%s bytes in %'u%s blocks"
-               " are %s in loss record %'u of %'u</text>\n",
+               " are %s in loss record %'u of %'u at address %p</text>\n",
                lr->szB, d_direct_bytes,
                lr->num_blocks, d_num_blocks,
                str_leak_lossmode(lr->key.state), 
-               n_this_record, n_total_records );
+               n_this_record, n_total_records,
+               (void*)lr->address);
          emit( "    <leakedbytes>%lu</leakedbytes>\n", lr->szB);
          emit( "    <leakedblocks>%u</leakedblocks>\n", lr->num_blocks);
          emit( "  </xwhat>\n" );
@@ -384,21 +386,23 @@ static void pp_LossRecord(UInt n_this_record, UInt n_total_records,
       if (lr->indirect_szB > 0) {
          emit(
             "%'lu%s (%'lu%s direct, %'lu%s indirect) bytes in %'u%s blocks"
-            " are %s in loss record %'u of %'u\n",
+            " are %s in loss record %'u of %'u at address %p\n",
             lr->szB + lr->indirect_szB, d_bytes,
             lr->szB, d_direct_bytes,
             lr->indirect_szB, d_indirect_bytes,
             lr->num_blocks, d_num_blocks,
             str_leak_lossmode(lr->key.state),
-            n_this_record, n_total_records
+            n_this_record, n_total_records,
+            (void*)lr->address
          );
       } else {
          emit(
-            "%'lu%s bytes in %'u%s blocks are %s in loss record %'u of %'u\n",
+            "%'lu%s bytes in %'u%s blocks are %s in loss record %'u of %'u at address %p\n",
             lr->szB, d_direct_bytes,
             lr->num_blocks, d_num_blocks,
             str_leak_lossmode(lr->key.state),
-            n_this_record, n_total_records
+            n_this_record, n_total_records,
+            (void*)lr->address
          );
       }
       VG_(pp_ExeContext)(lr->key.allocated_at);

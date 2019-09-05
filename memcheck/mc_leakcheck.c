@@ -1594,6 +1594,7 @@ static void print_results(ThreadId tid, LeakCheckParams* lcp)
          lr->old_szB          = 0;
          lr->old_indirect_szB = 0;
          lr->old_num_blocks   = 0;
+         lr->address          = ch->data;
          VG_(OSetGen_Insert)(lr_table, lr);
       }
    }

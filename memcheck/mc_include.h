@@ -455,6 +455,7 @@ typedef
       SizeT old_szB;          // old_* values are the values found during the 
       SizeT old_indirect_szB; // previous leak search. old_* values are used to
       UInt  old_num_blocks;   // output only the changed/new loss records
+      Addr  address;
    }
    LossRecord;
 
